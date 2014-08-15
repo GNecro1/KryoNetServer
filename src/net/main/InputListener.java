@@ -5,6 +5,8 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JTextArea;
 
+import net.packets.MessagePacket;
+
 public class InputListener implements KeyListener {
 
 	private JTextArea input;
@@ -17,10 +19,10 @@ public class InputListener implements KeyListener {
 
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
-		if (key == KeyEvent.VK_ENTER) {
+		if (key == KeyEvent.VK_F1) {
 			String s = input.getText();
-			input.setText("");
 			input.setRows(0);
+			input.setText("");
 			input.cut();
 			String[] c = s.split(" ");
 			if (c[0].equals("*stop")) {
@@ -35,6 +37,16 @@ public class InputListener implements KeyListener {
 						}
 					}
 				}
+			} else if (c[0].equals("*msg")) {
+				MessagePacket mp = new MessagePacket();
+				mp.message = "MSG from server : ";
+				for (String strings : c) {
+					mp.message += strings+" ";
+				}
+				mp.message.replace("*msg ", "");
+				mp.id = -1;
+				sg.n.server.sendToAllTCP(mp);
+				ServerGame.logger.info(mp.message);
 			}
 		}
 	}

@@ -43,6 +43,8 @@ public class OPHandler extends Handler {
 			sb.append("[INFO] ");
 		} else if (lvl == Level.SEVERE) {
 			sb.append("[SEVERE] ");
+		}else if (lvl == Level.FINE) {
+			sb.append("[MSG] ");
 		} else {
 			sb.append("[OTHER] ");
 		}
